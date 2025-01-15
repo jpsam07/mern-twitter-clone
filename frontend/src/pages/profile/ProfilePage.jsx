@@ -13,6 +13,7 @@ import { FaLink } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 
 const ProfilePage = () => {
+
 	const [coverImg, setCoverImg] = useState(null);
 	const [profileImg, setProfileImg] = useState(null);
 	const [feedType, setFeedType] = useState("posts");
@@ -25,11 +26,11 @@ const ProfilePage = () => {
 
 	const user = {
 		_id: "1",
-		fullName: "John Doe",
-		username: "johndoe",
+		fullName: "John Wick",
+		username: "johnwick",
 		profileImg: "/avatars/boy2.png",
 		coverImg: "/cover.png",
-		bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+		bio: "Yeahhhh",
 		link: "https://youtube.com/@asaprogrammer_",
 		following: ["1", "2", "3"],
 		followers: ["1", "2", "3"],

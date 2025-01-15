@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/auth/login/LoginPage";
@@ -14,7 +14,8 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 
 function App() {
 
-  const { data:authUser, isLoading, isError, error } = useQuery({
+  const { data:authUser, isLoading } = useQuery({
+    // queryKey is used to give a unique name to our query and refer to it later
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
@@ -29,7 +30,8 @@ function App() {
       } catch (error) {
         throw new Error(error);
       }      
-    }
+    },
+    retry: false, 
   });
 
   if (isLoading) {
@@ -52,7 +54,7 @@ function App() {
       <div className='flex-1 flex'> {/* Make main content area flexible */}
         <Routes>
           <Route path='/' element={authUser ? <HomePage /> : <Navigate to="/login" /> } />
-          <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
+          <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to="/" /> } />
           <Route path='/signup' element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
           <Route path='/notifications' element={authUser ? <NotificationPage /> : <Navigate to="/login" />} />
           <Route path='/profile/:username' element={authUser ?<ProfilePage /> : <Navigate to="/login" />} />
