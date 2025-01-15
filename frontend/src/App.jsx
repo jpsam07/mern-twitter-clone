@@ -22,6 +22,7 @@ function App() {
         const res = await fetch("/api/auth/me");
         const data = await res.json();
 
+        if (data.error) return null;
         if (!res.ok) {
           throw new Error(data.error || "Something went wrong");
         }
@@ -39,19 +40,18 @@ function App() {
       <div className='h-screen flex justify-center items-center'>
         <LoadingSpinner size='lg' />
       </div>
-    )
+    );
   }
+
+  console.log(authUser);
 
   const location = useLocation();
   const pathName = location.pathname;
 
   return (
     <div className='flex max-w-6xl mx-auto'>
-      {/* Sidebar */}
-      {pathName !== "/login" && pathName !== "/signup" && <Sidebar />}
-
-      {/* Main Content Area */}
-      <div className='flex-1 flex'> {/* Make main content area flexible */}
+        {/* Common component, cuz it's not wrapped in routes */}
+        {authUser && <Sidebar />}
         <Routes>
           <Route path='/' element={authUser ? <HomePage /> : <Navigate to="/login" /> } />
           <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to="/" /> } />
@@ -59,11 +59,8 @@ function App() {
           <Route path='/notifications' element={authUser ? <NotificationPage /> : <Navigate to="/login" />} />
           <Route path='/profile/:username' element={authUser ?<ProfilePage /> : <Navigate to="/login" />} />
         </Routes>
+        {authUser && <RightPanel />}
         <Toaster />
-      </div>
-
-      {/* Right Panel */}
-      {pathName !== "/login" && pathName !== "/signup" && <RightPanel />}
     </div>
   );
 };

@@ -41,7 +41,7 @@ const LoginPage = () => {
 			// refetch the authUser
 			queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		},
-	})
+	});
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
