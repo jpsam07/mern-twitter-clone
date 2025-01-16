@@ -26,7 +26,7 @@ const Posts = ({ feedType }) => {
 				const data = await res.json();
 				
 				if (!res.ok) {
-					throw new Error(data.error || "SOmething went wrong");
+					throw new Error(data.error || "Something went wrong");
 				}
 
 				return data;
