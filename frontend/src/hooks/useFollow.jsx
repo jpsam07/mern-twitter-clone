@@ -5,12 +5,12 @@ const useFollow = () => {
 
     const queryClient = useQueryClient();
 
-    const { mutate:followUnfollowUser, isPending } = useMutation({
+    const { mutate: followUnfollowUser, isPending } = useMutation({
         mutationFn: async(userId) => {
             try {
                 const res = await fetch(`/api/users/follow/${userId}`, {
                     method: "POST",
-                })
+                });
                 const data = await res.json();
                 if (!res.ok) {
                     throw new Error(data.error || "Something went wrong");

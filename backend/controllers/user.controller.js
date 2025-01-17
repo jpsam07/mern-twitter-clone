@@ -26,7 +26,7 @@ export const followUnfollowUser = async (req, res) => {
         const userToModify = await User.findById(id);
         const currentUser = await User.findById(req.user._id);
 
-        if (id == req.user._id.toString()) {
+        if (id === req.user._id.toString()) {
             return res.status(400).json({ error: "You cannot follow/unfollow yourself." });
         }
 
@@ -39,17 +39,8 @@ export const followUnfollowUser = async (req, res) => {
         if (isFollowing) {
             // Unfollow user
             await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
-            // Send notification to user
-            // const newNotification = new Notification({
-            //     type: "follow",
-            //     from: req.user._id,
-            //     to: userToModify._id
-            // });
-
-            // await newNotification.save();
-            
             await User.findByIdAndUpdate(req.user._id, { $pull: { following: id } });
-            // TODO: return the id of the user as a response 
+
             res.status(200).json({ message: "User unfollowed successfully." });
         } else {
             // Follow user
@@ -63,8 +54,7 @@ export const followUnfollowUser = async (req, res) => {
             });
 
             await newNotification.save();
-
-            // TODO: return the id of the user as a response
+            
             res.status(200).json({ message: "User followed successfully" });
 
         }
@@ -90,14 +80,15 @@ export const getSuggestedUsers = async (req, res) => {
             { $sample: { size: 10 } }
         ]);
 
-        const filteredUsers = users.filter(user=>!usersFollowedByMe.following.includes(user._id));
+        const filteredUsers = users.filter((user) => !usersFollowedByMe.following.includes(user._id));
         const suggestedUsers = filteredUsers.slice(0, 4);
 
-        suggestedUsers.forEach(user=>user.password=null)
+        suggestedUsers.forEach((user) => (user.password=null));
 
         res.status(200).json(suggestedUsers);
     } catch (error) {
-
+        console.log("Error in getSuggestedUsers: ", error.message);
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -110,7 +101,9 @@ export const updateUser = async (req, res) => {
 
     try {
         let user = await User.findById(userId);
-        if (!user) return res.status(400).json( { message: "User not found." });
+        if (!user) {
+            return res.status(400).json( { message: "User not found." });
+        } 
 
         if ((!newPassword && currentPassword) || (!currentPassword && newPassword )) {
             return res.status(400).json( { error: "Please provide both current password and new password" } );
