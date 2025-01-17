@@ -14,7 +14,8 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 
 function App() {
 
-  const { data:authUser, isLoading } = useQuery({
+  const location = useLocation();
+  const { isLoading, data: authUser } = useQuery({
     // queryKey is used to give a unique name to our query and refer to it later
     queryKey: ["authUser"],
     queryFn: async () => {
@@ -45,7 +46,6 @@ function App() {
 
   console.log(authUser);
 
-  const location = useLocation();
   const pathName = location.pathname;
 
   return (
