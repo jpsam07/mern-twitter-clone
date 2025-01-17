@@ -4,33 +4,33 @@ const postSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        required: true,
     },
     text: {
-        type: String
+        type: String,
     },
     img: {
-        type: String
+        type: String,
     },
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
         }
     ],
     comments: [
         {
             text: {
                 type: String,
-                required: true
+                required: true,
             },
             user: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
-                required: true
+                required: true,
             }
         }    
-    ]
+    ],
 }, { timestamps: true });
 
 const Post = mongoose.model("Post", postSchema);
