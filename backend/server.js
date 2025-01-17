@@ -12,7 +12,7 @@ import postRoutes from "./routes/post.route.js";
 import notificationRoutes from "./routes/notification.route.js";
 
 // DB
-import connectMongoDB from "./db/connectMongodb.js";
+import connectMongoDB from "./db/connectMongoDB.js";
 
 dotenv.config();
 
